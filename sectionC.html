@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello, World!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    fieldset {
+      border: 2px solid #4A90E2;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    legend {
+      padding: 0 0.5rem;
+      font-weight: bold;
+      color: #4A90E2;
+      text-align: center;
+    }
+
+    
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="file"], select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input[type="file"] {
+      padding: 0.3rem;
+    }
+  
+  label, select {
+     display: inline-block;
+      margin-top: 1rem;
+      color: #333;
+      font-weight: 500;
+    
+    }
+  
+  input.count {
+    width: 100px;
+  }
+
+    #passportOutput {
+      display: block;
+      max-width: 150px;
+      margin: 1rem auto;
+      border-radius: 8px;
+      border: 2px dashed #ccc;
+      padding: 0.5rem;
+    }
+
+    button {
+      background: #4A90E2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #357ABD;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Section C</h1>
+    <div>
+      <!--div>
+        <img id="passportOutput" src="#" alt="Passport Preview">
+      </div-->
+      <!--fieldset-->
+        <legend>SCHOOL DATA</legend>
+
+        <label for="nameIn">School Name<sup>*</sup></label>
+        <input placeholder="School Name" id="nameIn" type="text" required>
+        
+        <label for="address">School Address<sup>*</sup></label>
+        <input id="address" placeholder="School Address" type="text" required><br>
+      
+      <fieldset id="coord">
+        <p id="dyMsg"></p>
+        <legend>School Geolocation<sup>*</sup></legend>
+        <input type="number" id="lat" placeholder="School latitude" required readonly>
+        <input type="number" id="long" placeholder="School longitude" required readonly>
+        <button id="autoFill">Auto-fill</button>
+        <p id="msg">
+          <strong>NB: </strong>It is expected that you auto-fill the latitude and longitude <strong><em>while you are in the school</em></strong>.
+        </p>
+      </fieldset>
+      
+      <select name="borno_lga" id="borno_lga" required>
+        <option value=""> -School LGA- </option>
+  <option value="abadam">Abadam</option>
+  <option value="askira_uba">Askira/Uba</option>
+  <option value="bama">Bama</option>
+  <option value="bayo">Bayo</option>
+  <option value="biu">Biu</option>
+  <option value="chibok">Chibok</option>
+  <option value="damboa">Damboa</option>
+  <option value="dikwa">Dikwa</option>
+  <option value="gubio">Gubio</option>
+  <option value="guzamala">Guzamala</option>
+  <option value="gwoza">Gwoza</option>
+  <option value="hawul">Hawul</option>
+  <option value="jere">Jere</option>
+  <option value="kaga">Kaga</option>
+  <option value="kalabalge">Kala/Balge</option>
+  <option value="konduga">Konduga</option>
+  <option value="kukawa">Kukawa</option>
+  <option value="kwaya_kusar">Kwaya Kusar</option>
+  <option value="maiduguri">Maiduguri</option>
+  <option value="magumeri">Magumeri</option>
+  <option value="maiduguri_metro">Maiduguri Metropolitan</option>
+  <option value="marte">Marte</option>
+  <option value="mobbar">Mobbar</option>
+  <option value="monguno">Monguno</option>
+  <option value="ngala">Ngala</option>
+  <option value="nganzai">Nganzai</option>
+  <option value="shani">Shani</option>
+</select>
+
+      <br>
+      <label>Ward<sup>*</sup> <input id="ward" type="text" required></label>
+       
+        <label for="emailIn">School Email</label>
+        <input type="email" id="emailIn" placeholder="Email Address">
+
+        <!--fieldset>
+          <legend>Phone Numbers</legend-->
+          <label for="phone1In">School Number 1<sup>*</sup></label>
+          <input id="phone1In" type="text" inputmode="numeric" required>
+
+          <label for="phone2In">School Number 2</label>
+          <input id="phone2In" type="number" placeholder="Phone Number 2 (optional)">
+
+               
+      <label for="website">School Website</label>
+       <input id="website" type="text" placeholder="Website address (optional)"><br>
+      
+      
+      <label>Is your school registered with government?<sup>*</sup>
+        <select id="isRegistered" required>
+          <option value="">-Select Yes/No-</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </label><br>
+      <select id="category"  style="display:none">
+        <option value=""> -CATEGORY (A, B, C)- </option>
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+                
+      </select>
+   
+        <select id="type" required>
+        <option value=""> -SCHOOL TYPE- </option>
+        <option value="conventional">Conventional School</option>
+        <option value="integrated">Islamic Integrated School</option>
+        <option value="church">Church School</option>
+        <option value="islamiyya">Islamiyya School</option>
+        <option value="charity">Charity School</option>
+                
+      </select>
+      
+      <fieldset>
+        <legend>School level(s)<sup>*</sup></legend>
+        <label>Check/tick as approprite</label><br>
+        <input type="checkbox" class="level" name="level" id="daycare" value="daycare" required> <label for="daycare">DAYCARE</label><br>        
+        <input type="checkbox" class="level"  name="level" id="nursery" value="nursery" required> <label for="nursery">NURSERY</label><br>        
+        <input type="checkbox" class="level" name="level" id="primary" value="primary" required> <label for="primary">PRIMARY</label><br>        
+        <input type="checkbox" class="level" name="level" id="jss" value="jss" required> <label for="jss">JSS</label><br>        
+        <input type="checkbox" class="level" name="level" id="sss" value="sss" required> <label for="sss">SSS</label><br>        
+        <input type="checkbox" class="level" name="level" id="college" value="college" required> <label for="college">COLLEGE</label><br>                
+      </fieldset>
+      
+      <fieldset>
+        <legend>School Campus</legend>
+        <label>Is your school a multi-campus?<sup>*</sup>
+          <select id="isMulticampus" require>
+            <option value="">-Select Yes/No-</option>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </label><br>
+        
+        <div id="multicamp" style="display:none">
+          <label for="campusNo">How many?<sup>*</sup></label><br>
+          <input id="campusNo" class="count" type="number" placeholder="number">
+          <div id="campusList">            
+          </div>
+        </div>
+        <hr>
+        <label>TOTAL NUMBER OF PUPILS/STUDENTS IN ALL THE CAMPUSES</label><br>
+        <label for="daycarec" class="daycare level"> <input type="number" name="levelc" class="count level students" id="daycarec" placeholder="number" required> in DAYCARE<sup>*</sup></label>       
+        <label for="nurseryc" class="nursery level"> <input type="number" name="levelc" class="count level students" id="nurseryc" placeholder="number" required> in NURSERY<sup>*</sup></label>     
+        <label for="primaryc" class="primary level"><input type="number" name="levelc" class="count level students" id="primaryc" placeholder="number" required> in PRIMARY<sup>*</sup></label>    
+        <label for="jssc" class="jss level"><input type="number" name="levelc" class="count level students" id="jssc" placeholder="number" required> in JSS<sup>*</sup></label>     
+        <label for="sssc" class="sss level"><input type="number" name="levelc" class="count level students" id="sssc" placeholder="number" required> in SSS<sup>*</sup></label>
+        <label for="collegec" class="college level"><input type="number" name="levelc" class="count level students" id="collegec" placeholder="number" required> in COLLEGE<sup>*</sup></label>             
+        
+        <hr>
+        
+        <label>TOTAL NUMBER OF STAFF IN ALL THE CAMPUSES</label><br>
+        <label for="academic">Academic Staff<sup>*</sup></label>
+        <input id="academic" placeholder="number" type="number" class="count" required>
+        <label for="nacademic">Non-academic Staff<sup>*</sup></label>
+        <input id="nacademic" placeholder="number" type="number" class="count" required>
+
+      </fieldset>
+       <!--/fieldset-->
+
+              <!--/fieldset-->
+
+      <button id="save">Save and Proceed <span></span></button>
+    </div>
+  </div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+  import {getFirestore, doc, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {getAuth, signInAnonymously, updateProfile, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiIS14NwP7csZAzEDHgZtzTh2l_9dQeJM",
+  authDomain: "mainadatabase.firebaseapp.com",
+  projectId: "mainadatabase",
+  storageBucket: "mainadatabase.firebasestorage.app",
+  messagingSenderId: "1078959137667",
+  appId: "1:1078959137667:web:f67f2a185649a9d9fcccb6",
+  measurementId: "G-QQQDFFTJHY"
+};
+
+
+const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+    const db = getFirestore(app);
+  //let pspRef = doc(db, "user", "psp");
+
+signInAnonymously(auth)
+.then(()=>{
+  
+})
+.catch(()=>{
+  
+})
+
+
+
+
+
+const conditionalInputs = {};
+ Array.from(document
+  .querySelectorAll("input, select"))
+  .forEach(inp=>inp.classList.add("nonc-inputs"))
+  
+  Array.from(document
+  .querySelectorAll("label.level"))
+  .forEach(cont=>{
+   cont.style.display = "none";
+    cont.querySelector('input')
+    .removeAttribute("required");
+  })
+  
+onAuthStateChanged(auth, user=>{
+  
+  if (user){
+    const id = user.uid;
+    
+    let formRef = doc(db, id, "form");
+    let form;
+    getDoc(formRef)
+    .then(doc=>{
+      if (doc.exists()){
+        form = doc.data();
+      } else
+      form = {};
+      form.sectionC ??= {
+        name: "",
+        lga: "",
+        email: "",
+        phone1: "",
+        phone2: "",
+        address: "", 
+        ward: "",
+        latitude: "",
+        longitude: "",
+        website: "",
+        isRegistered: "",
+        category: "",
+        type: "",
+        levels: {
+          daycare: "", 
+          nursery: "", 
+          primary: "", 
+          jss: "", 
+          sss: "", 
+          college: ""
+        },
+        isMultiCampus: "",
+        campuses: [],
+        stdsPerLevel: {
+          daycare: "", 
+          nursery: "", 
+          primary: "", 
+          jss: "", 
+          sss: "", 
+          college: ""
+        },  
+        staffCounts: {
+          acadStaff:"",
+          nonacadStaff: ""
+        }
+      };
+      
+      let section = form.sectionC;
+     
+      lat.value = section.latitude;
+      long.value = section.longitude;
+      
+      [["latitude", lat], ["longitude", long]]
+      .forEach(point=> point[1].onchange = e=>{
+        section[point[0]] = point[1].value;
+        point[1].style = "border: 1px solid #ccc; background: white; color:black;"
+      });
+      
+      nameIn.value = section.name;
+      nameIn.onchange = e=>{
+        nameIn.value = nameIn.value.replace("  ", " ").trim();
+        section.name = nameIn.value;
+        nameIn.style = "border: 1px solid #ccc; background: white; color:black;"
+      }
+  
+      emailIn.value = section.email;
+      emailIn.oninput = e=>{
+        section.email = emailIn.value;
+        emailIn.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone1In.value = section.phone1;
+      phone1In.oninput = e=>{
+        section.phone1 = phone1In.value;
+        phone1In.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone2In.value = section.phone2;
+      phone2In.oninput = e=>{
+        section.phone2 = phone2In.value;
+      }
+      address.value = section.address;
+      address.oninput = e=>{
+        section.address = address.value;
+        address.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      
+      borno_lga.value = section.lga;
+      borno_lga.onchange = e=>{
+        section.lga = borno_lga.value;
+      }
+      ward.value = section.ward;
+      ward.onchange = e=>{
+        section.ward = ward.value;
+      }
+      website.value = section.website;
+      website.onchange = e=>{
+        section.website = website.value;
+        
+      }
+      isRegistered.value = section.isRegistered
+      updateCategory(section.isRegistered);
+      isRegistered.onchange = e=>{
+        section.isRegistered = isRegistered.value;
+        updateCategory(section.isRegistered);
+      }
+      category.value = section.category;
+      category.onchange = e=>{
+        section.category = category.value;
+      }
+      type.value = section.type;
+      type.onchange = e=>{
+        section.type = type.value;
+      }
+      Object.keys(section.levels).forEach(level=>{
+        let val = section.levels[level];
+        let checkbox = document.getElementById(level)
+        checkbox.checked = val;
+        checkbox.onchange = e=>{
+          section.levels[level] = checkbox.checked;
+          console.log(section.levels[level] )
+          let countInCont = document.querySelector(`label.${level}`);
+          if (section.levels[level]==true){
+            //alert()
+             countInCont.style.display = "block";
+            countInCont.querySelector("input")
+            .setAttribute("required", true);
+          } else {
+            countInCont.querySelector("input")
+            .removeAttribute("required");
+            countInCont.style.display = "none";
+          }
+        }
+        
+      })
+      isMulticampus.value = section.isMultiCampus;
+      isMulticampus.onchange = e=>{
+        section.isMultiCampus = isMulticampus.value;
+        updateCampusNoInp(section.isMultiCampus);
+ 
+      }
+      //return;
+      updateCampusNoInp(section.isMultiCampus);
+      campusNo.value = section.campuses.length;
+      campusNo.oninput = e=>{
+        
+        let campuses = Array.from({length:Number(campusNo.value)})
+        .fill({name:"", location:""});
+        section.campuses = campuses;
+        updateCampusList(section.campuses);
+      }
+      updateCampusList(section.campuses);
+      Object.keys(section.stdsPerLevel)
+      .forEach(key=>{
+        let stdCountIn = document.getElementById(key+"c");
+        stdCountIn.value= section.stdsPerLevel[key];
+        stdCountIn.oninput = e=>{
+          section.stdsPerLevel[key] = stdCountIn.value;
+        }
+        
+      });
+      academic.value = section.staffCounts.acadStaff;
+      academic.onchange = e=>{
+        section.staffCounts.acadStaff = academic.value;
+      }
+      nacademic.value = section.staffCounts.nonacadStaff;
+      nacademic.onchange = e=>{
+        section.staffCounts.nonacadStaff = nacademic.value;
+      }
+      save.onclick = e=>{
+        let invalidC = 0;
+        Array.from(document
+        .querySelectorAll("input, select"))
+        .forEach(inp=>{
+          if(!inp.checkValidity()){
+            if (inp.name=="level"){
+             // console.log(Object.values(section.levels))
+              if (!Object.values(section.levels).includes(true))
+              invalidC++;
+            } else
+            invalidC++;
+            //inp.style.border = "1.5px solid red";
+            //inp.style.background = "red";
+            //inp.style.color = "white";
+          }
+        })
+        
+        if (invalidC){
+          alert ("About " + invalidC+" invalid input(s)");
+          return;
+        }
+        if (!form.sectionC.latitude){
+          dyMsg.textContent = "Please fill the coordinates.";
+          dyMsg.style.color = "red";
+          coord.scrollIntoView();
+          return;
+        }
+        
+        save.querySelector("span").classList.add("spinner");
+        setDoc(formRef, form)
+        .then(()=>{
+          save.querySelector("span").classList.remove("spinner");
+          save.textContent = "Saved!";
+          window.location.href = "sectionD.html";
+        })
+      }
+      autoFill.onclick = getLocation;
+  function getLocation() {
+      //const output = document.getElementById("output");
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            lat.value= position.coords.latitude;
+            long.value = position.coords.longitude;
+            form.sectionC.latitude = lat.value;
+            form.sectionC.longitude = long.value;
+             dyMsg.textContent = "";
+    
+                        
+          },
+          error => {
+            msg.innerHTML = "Unable to retrieve location." + error.message;
+          }
+        );
+      } else {
+     
+        msg.innerHTML = "Geolocation is not supported by this browser.";
+        
+      }
+    }
+    })
+    .catch(e=>{
+      document.body.innerHTML =`
+      Unknowm error occured ${e.message}<hr>
+      <button onclick="window.location.reload()">
+      Reload
+      </button>
+    `;
+    })    
+  } else {
+    document.body.innerHTML =`
+    Unknowm error occured<br>
+    <button onclick="window.location.reload()">
+    Reload
+    </button>
+    `;
+  }
+})
+  
+  
+  
+  
+  
+  function updateCampusNoInp(isMulti){
+    if (isMulti.toLowerCase()==="true"){
+      multicamp.style.display = "block";
+      let nameIns = Array.from(campusList.querySelectorAll(".name-campus"));
+      let locationIns = Array.from(campusList.querySelectorAll(".location-campus"));
+      nameIns.forEach((nameIn, i)=>{
+        let key = "campName"+i;
+        conditionalInputs[key] = nameIn;
+      })
+      locationIns.forEach((locationIn, i)=>{
+        let key = "campLoc"+i;
+        conditionalInputs[key] = locationIn;
+      })
+
+    }
+    else {
+      multicamp.style.display = "none";
+      let nameIns = Array.from(campusList.querySelectorAll(".name-campus"));
+      let locationIns = Array.from(campusList.querySelectorAll(".location-campus"));
+      nameIns.forEach((nameIn, i)=>{
+        let key = "campName"+i;
+        delete conditionalInputs[key];
+      })
+      locationIns.forEach((locationIn, i)=>{
+        let key = "campLoc"+i;
+        delete conditionalInputs[key];
+      })
+
+    }
+  }
+  
+  function updateCampusList(campuses){
+      let nameIns = Array.from(campusList.querySelectorAll(".name-campus"));
+      let locationIns = Array.from(campusList.querySelectorAll(".location-campus"));
+      nameIns.forEach((nameIn, i)=>{
+        let key = "campName"+i;
+        delete conditionalInputs[key];
+      })
+      locationIns.forEach((locationIn, i)=>{
+        let key = "campLoc"+i;
+        delete conditionalInputs[key];
+      })
+    campusList.innerHTML = "";
+    campuses
+    .forEach((camp, i)=>{
+      let campCont = document.createElement("div");
+      campCont.innerHTML = `
+      
+      <label>
+        ${i+1} Name<sup>*</sup>: 
+        <input class="name-campus" type="text" value="${camp.name}" required>
+      </label>
+      <br>
+      <label>
+        Location<sup>*</sup>: 
+        <input type="text" class="location-campus" value="${camp.location}" required>
+      </label>
+      <br>`;
+      let inp= campCont
+      .querySelector(".name-campus");
+      inp.oninput = e=>{
+        camp.name = e.target.value;
+      }
+      let key = "campName"+i;
+      conditionalInputs[key] = inp;
+      let inp2 = campCont
+      .querySelector(".location-campus");
+      inp2.oninput = e=>{
+        camp.location = e.target.value;
+      }
+      let key2 = "campLoc"+i;
+      conditionalInputs[key2] = inp2;
+
+      campusList.append(campCont);
+    })
+  }
+  
+  
+  function updateCategory(isRegistered){
+    
+    if (isRegistered==="yes"){
+      category.style.display = "block";
+      category.setAttribute("required", true);
+    }
+    else {
+      category.style.display = "none";
+      category.removeAttribute("required");
+
+    }
+  }
+  </script>
+ 
+</body>
+</html>

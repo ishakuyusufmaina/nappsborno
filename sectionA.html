@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello, World!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    fieldset {
+      border: 2px solid #4A90E2;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      padding: 0 0.5rem;
+      font-weight: bold;
+      color: #4A90E2;
+      text-align: center;
+    }
+
+    label {
+     display: inline-block;
+      margin-top: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input[type="file"] {
+      padding: 0.3rem;
+    }
+
+    #passportOutput {
+      display: block;
+      max-width: 150px;
+      margin: 1rem auto;
+      border-radius: 8px;
+      border: 2px dashed #ccc;
+      padding: 0.5rem;
+    }
+
+    button {
+      background: #4A90E2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #357ABD;
+    }
+  
+   .spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid #fff;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Section A</h1>
+    <div>
+      <!--div>
+        <img id="passportOutput" src="#" alt="Passport Preview">
+      </div-->
+     
+        <legend>Proprietor's/Proprietress' Biodata</legend>
+
+        <label for="nameIn">Name <sup>*</sup></label>
+        <input placeholder="Name" id="nameIn" type="text" required>
+        
+      <label id="genderL">Gender <sup>*</sup></label><br>
+        <input name="gender" value="male" id="m" type="radio"><label for="m">MALE</label>
+        <input name="gender" value="female" id="f" type="radio"><label for="f">FEMALE</label>
+        <label for="readdressIn">Residential Address <sup>*</sup></label>
+        <input id="readdressIn" placeholder="Your residential address" type="text" required>
+
+        <label for="emailIn">Email Address <sup>*</sup></label>
+        <input type="email" id="emailIn" placeholder="Your email address" required>
+
+        <!--fieldset>
+          <legend>Phone Numbers</legend-->
+          <label for="phone1In">Phone Number 1 <sup>*</sup></label>
+          <input id="phone1In" type="text" placeholder="Number 1" minlength="11" pattern="\d{11}" inputmode="numeric" required>
+
+          <label for="phone2In">Phone Number 2</label>
+          <input id="phone2In" type="number" placeholder="Number 2 (optional)">
+
+          <!--label for="phone3">Phone Number 3</label>
+          <input id="phone3" type="number" placeholder="Number 3 (optional)"-->
+        </fieldset>
+
+        <!--label for="passport">Upload your passport (≤ 0.5MB)</label>
+        <input id="passport" type="file" accept="image/*" -->
+      <!--/fieldset-->
+
+      <button id="save">Save and Proceed <span></span></button>
+    </div>
+  </div>
+
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+  import {getFirestore, doc, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {getAuth, signInAnonymously, updateProfile, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiIS14NwP7csZAzEDHgZtzTh2l_9dQeJM",
+  authDomain: "mainadatabase.firebaseapp.com",
+  projectId: "mainadatabase",
+  storageBucket: "mainadatabase.firebasestorage.app",
+  messagingSenderId: "1078959137667",
+  appId: "1:1078959137667:web:f67f2a185649a9d9fcccb6",
+  measurementId: "G-QQQDFFTJHY"
+};
+
+
+const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+    const db = getFirestore(app);
+  //let pspRef = doc(db, "user", "psp");
+
+signInAnonymously(auth)
+.then(()=>{
+  
+})
+.catch(()=>{
+  
+})
+/*
+ getDoc(pspRef)
+.then(doc=>{
+  if (doc.exists()){
+    passportOutput.src = doc.data().src;
+  }
+})
+.catch(e=>{
+  alert("e: "+e.message)
+}) 
+*/
+
+
+//let psp;
+
+ //  const passportInput = document.getElementById("passport");
+   // const passportOutput = document.getElementById("passportOutput");
+
+  /*  passportInput.onchange = e => {
+      const file = passportInput.files[0];
+      if (file) {
+        if (file.size > 500 * 1024) {
+          alert("File size exceeds 0.5MB!");
+          passportInput.value = "";
+          passportOutput.src = "#";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          passportOutput.src = e.target.result;
+          psp = {};
+          psp.src = e.target.result;
+          psp.name = file.name;
+          psp.size = file.size;
+          psp.type = file.type;
+        };
+        reader.readAsDataURL(file);
+        //psp = file;
+      }
+    }; */
+
+
+
+onAuthStateChanged(auth, user=>{
+  
+  if (user){
+    const id = user.uid;
+    let formRef = doc(db, id, "form");
+    let form;
+    getDoc(formRef)
+    .then(doc=>{
+      if (doc.exists()){
+        form = doc.data();
+      } else
+      form = {};
+      form.sectionA ??= {
+        name: "",
+        gender: "",
+        email: "",
+        phone1: "",
+        phone2: "",
+        readdress: "", 
+      };
+     
+      
+      let section = form.sectionA;
+      nameIn.value = section.name;
+      nameIn.onchange = e=>{
+        nameIn.value = nameIn.value.replace("  ", " ").trim();
+        section.name = nameIn.value;
+        nameIn.style = "border: 1px solid #ccc; background: white; color:black;"
+      }
+      if (section.gender)
+      document.getElementById(section.gender[0]).checked = true;
+      m.oninput = e =>{
+        section.gender = m.value;
+        genderL.style.background="white";
+        genderL.style.color="black";
+      }
+      f.oninput = e =>{
+        section.gender = f.value;
+        genderL.style.background="white";
+        genderL.style.color="black";
+      }    
+      emailIn.value = section.email;
+      emailIn.oninput = e=>{
+        section.email = emailIn.value;
+        emailIn.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone1In.value = section.phone1;
+      phone1In.oninput = e=>{
+        section.phone1 = phone1In.value;
+        phone1In.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone2In.value = section.phone2;
+      phone2In.oninput = e=>{
+        section.phone2 = phone2In.value;
+      }
+      readdressIn.value = section.readdress;
+      readdressIn.oninput = e=>{
+        section.readdress = readdressIn.value;
+        readdressIn.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      
+      save.onclick = e=>{
+        let invalidC = 0;
+        [nameIn, 
+        emailIn, 
+        phone1In,
+        phone2In,
+        readdressIn
+        ].forEach(inp=>{
+          if(!inp.checkValidity()){
+            invalidC++;
+            inp.style.border = "1.5px solid red";
+            inp.style.background = "red";
+            inp.style.color = "white";
+          }
+        })
+        if (!(!!f.checked || !!m.checked)){
+          alert("No gender selected!");
+          genderL.style.background="red";
+          genderL.style.color="white";
+          
+        }
+        if (invalidC){
+          alert ("Invalid "+invalidC+"input(s)");
+          return;
+        }
+         save.querySelector("span").classList.add("spinner");
+        setDoc(formRef, form)
+        .then(()=>{
+          save.querySelector("span").classList.remove("spinner");
+          save.textContent = "Saved!";
+          window.location.href = "sectionB.html";
+        })
+      }
+    })
+    .catch(e=>{
+      document.body.innerHTML =`
+      Unknowm error occured<hr>
+      <button onclick="window.location.reload()">
+      Reload
+      </button>
+    `;
+    })    
+  } else {
+    document.body.innerHTML =`
+    Unknowm error occured<br>
+    <button onclick="window.location.reload()">
+    Reload
+    </button>
+    `;
+  }
+})
+  </script>
+</body>
+</html>

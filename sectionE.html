@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section E - Declaration</title>
+
+</head>
+<body>
+  <div class="container">
+    <h1>Section E</h1>
+    <h2>DECLARATION</h2>
+     <div>
+        <img id="passportOutput" src="#" alt="Passport Preview">
+      </div> 
+      <div>
+        I/we <input id="nameIn" type="text" required />, the <input type="text" id="rank" placeholder="state role/rank" required />
+        of <input id="school" type="text" placeholder="state school name" required> hereby apply
+        for the membership of the National Association of Proprietors
+        of Private Schools (<strong>NAPPS</strong>). 
+        I/we understand that the information given are for my/our
+        registration with the association and are correct to the
+        best of my/our knowledge/understanding.
+        <hr>
+        <label>
+          And I hereby check this box to serve as my signature <input id="sign" type="checkbox" required>
+        </label>
+        <br>
+        <label for="passport">Upload your passport (≤ 0.5MB)</label>
+        <input id="passport" type="file" accept="image/*" required>
+     
+      </div>
+
+      <button id="save">Finish <span class="spiner"></span></button>
+   
+  </div>
+
+   
+  
+   
+  
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+  import {getFirestore, doc, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {getAuth, signInAnonymously, updateProfile, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiIS14NwP7csZAzEDHgZtzTh2l_9dQeJM",
+  authDomain: "mainadatabase.firebaseapp.com",
+  projectId: "mainadatabase",
+  storageBucket: "mainadatabase.firebasestorage.app",
+  messagingSenderId: "1078959137667",
+  appId: "1:1078959137667:web:f67f2a185649a9d9fcccb6",
+  measurementId: "G-QQQDFFTJHY"
+};
+
+
+  const passportInput = document.getElementById("passport");
+   const passportOutput = document.getElementById("passportOutput");
+
+const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+    const db = getFirestore(app);
+  //let pspRef = doc(db, "user", "psp");
+
+signInAnonymously(auth)
+.then(()=>{
+  
+})
+.catch(()=>{
+  
+})
+
+
+
+
+
+
+
+onAuthStateChanged(auth, user=>{
+  
+  if (user){
+    const id = user.uid;
+   /* let pspRef = doc(db, id, "psp");
+
+    getDoc(pspRef)
+.then(doc=>{
+  if (doc.exists()){
+    passportOutput.src = doc.data().src;
+  }
+})
+.catch(e=>{
+  alert("e: "+e.message)
+}) */
+    let formRef = doc(db, id, "form");
+    let form;
+    getDoc(formRef)
+    .then(doc=>{
+      if (doc.exists()){
+        form = doc.data();
+      } else
+      form = {};
+      form.sectionE ??= {
+        psp: {},
+        name: "",
+        rank: "",
+        school: "",
+        signed: ""
+      };
+      let section = form.sectionE;
+      nameIn.value = section.name;
+      nameIn.onchange = e=>{
+        section.name = nameIn.value;
+      }
+      
+      rank.value = section.rank;
+      rank.onchange = e=>{
+        section.rank = rank.value;
+      }
+      school.value = section.school;
+      school.onchange = e=>{
+        section.school = school.value;
+      }
+      sign.checked = section.signed;
+      sign.onchange = e=>{
+        section.signed = sign.checked;
+      }
+      
+      
+      
+     passportOutput.src = section.psp.src;
+     passportInput.onchange = e => {
+      const file = passportInput.files[0];
+      if (file) {
+        if (file.size > 500 * 1024) {
+          alert("File size exceeds 0.5MB!");
+          passportInput.value = "";
+          passportOutput.src = "#";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          passportOutput.src = e.target.result;
+          section.psp.src = e.target.result;
+          section.psp.name = file.name;
+          section.psp.size = file.size;
+          section.psp.type = file.type;
+        };
+        reader.readAsDataURL(file);
+        //psp = file;
+      }
+    }; 
+    
+      
+      save.onclick = e=>{
+        let invalidC = 0;
+        [nameIn, school, rank, sign
+        ].forEach(inp=>{
+          if(!inp.checkValidity()){
+            invalidC++;
+            //inp.style.border = "1.5px solid red";
+            //inp.style.background = "red";
+           // inp.style.color = "white";
+          }
+        })
+        
+        if (invalidC){
+          alert ("About " + invalidC+" invalid input(s)");
+          return;
+        }
+        if (!Object.keys(form.sectionE.psp).length){
+          passport.scrollIntoView();
+          alert("Please upload your passport");
+          return;
+        }
+        
+        save.querySelector("span").classList.add("spinner");
+        setDoc(formRef, form)
+        .then(()=>{
+          save.querySelector("span").classList.remove("spinner");
+          save.textContent = "Saved!";
+          document.body.innerHTML = "Your form has been successfully submitted";
+        })
+      }
+    })
+    .catch(e=>{
+      document.body.innerHTML =`
+      Unknowm error occured ${e.message}<hr>
+      <button onclick="window.location.reload()">
+      Reload
+      </button>
+    `;
+    })    
+  } else {
+    document.body.innerHTML =`
+    Unknowm error occured<br>
+    <button onclick="window.location.reload()">
+    Reload
+    </button>
+    `;
+  }
+})
+  </script>
+  
+  <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+  }
+
+  body {
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  //  border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #2980b9;
+    margin: 20px 0 10px;
+  }
+
+  div > input[type="text"] {
+    padding: 8px 10px;
+    margin: 6px 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  input[type="text"]:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  }
+
+  input[type="checkbox"] {
+    margin-left: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+
+  strong {
+    color: #34495e;
+  }
+  
+  #passportOutput {
+      display: block;
+      max-width: 150px;
+      margin: 1rem auto;
+      border-radius: 8px;
+      border: 2px dashed #ccc;
+      padding: 0.5rem;
+    }
+
+  
+  .spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid #fff;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+
+</body>
+</html>

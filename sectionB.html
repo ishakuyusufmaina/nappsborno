@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello, World!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    fieldset {
+      border: 2px solid #4A90E2;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      padding: 0 0.5rem;
+      font-weight: bold;
+      color: #4A90E2;
+      text-align: center;
+    }
+
+    label, select {
+     display: inline-block;
+      margin-top: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="file"], select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input[type="file"] {
+      padding: 0.3rem;
+    }
+
+    #passportOutput {
+      display: block;
+      max-width: 150px;
+      margin: 1rem auto;
+      border-radius: 8px;
+      border: 2px dashed #ccc;
+      padding: 0.5rem;
+    }
+
+    button {
+      background: #4A90E2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #357ABD;
+    }
+  
+  .spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid #fff;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Section B</h1>
+    <div>
+      <!--div>
+        <img id="passportOutput" src="#" alt="Passport Preview">
+      </div-->
+      
+        <legend>DETAILS OF NEXT OF KIN</legend>
+
+        <label for="nameIn">Name</label>
+        <input placeholder="Name" id="nameIn" type="text" required>
+      
+      <label id="genderL">Gender: </label>
+        <input name="gender" value="male" id="m" type="radio"><label for="m">MALE</label>
+        <input name="gender" value="female" id="f" type="radio"><label for="f">FEMALE</label>
+        <br>
+      
+      <label for="relationship">Relationship</label>
+        <select name="relationship" id="relationship" required>
+          <option value="">-RELATIONSHIP-</option>       
+          <option value="parent">Parent</option>
+          <option value="child">Child</option>
+          <option value="sibling">Sibling</option>
+          <option value="spouse">Spouse</option>
+          <option value="grandparent">Grandparent</option>
+          <option value="grandchild">Grandchild</option>
+          <option value="aunt_uncle">Aunt/Uncle</option>
+          <option value="niece_nephew">Niece/Nephew</option>
+          <option value="cousin">Cousin</option>
+          <option value="step_parent">Step-parent</option>
+          <option value="step_child">Step-child</option>
+          <option value="half_sibling">Half-sibling</option>
+          <option value="in_law">In-law</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="readdressIn">Residential Address</label>
+        <input id="readdressIn" placeholder="Residential Address" type="text" required>
+
+        <label for="emailIn">Email Address</label>
+        <input type="email" id="emailIn" placeholder="Email Address" required>
+
+        <!--fieldset>
+          <legend>Phone Numbers</legend-->
+          <label for="phone1In">Phone Number 1</label>
+          <input id="phone1In" type="text" minlength="11" pattern="\d{11}" inputmode="numeric"  placeholder="Phone Number 1" required>
+
+          <label for="phone2Ib">Phone Number 2</label>
+          <input id="phone2In" type="number" placeholder="Phone Number 2">
+
+                  </fieldset>
+
+              <!--/fieldset-->
+
+      <button id="save">Save and Proceed <span></span></button>
+    </div>
+  </div>
+
+
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+  import {getFirestore, doc, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {getAuth, signInAnonymously, updateProfile, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiIS14NwP7csZAzEDHgZtzTh2l_9dQeJM",
+  authDomain: "mainadatabase.firebaseapp.com",
+  projectId: "mainadatabase",
+  storageBucket: "mainadatabase.firebasestorage.app",
+  messagingSenderId: "1078959137667",
+  appId: "1:1078959137667:web:f67f2a185649a9d9fcccb6",
+  measurementId: "G-QQQDFFTJHY"
+};
+
+
+const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+    const db = getFirestore(app);
+  //let pspRef = doc(db, "user", "psp");
+
+signInAnonymously(auth)
+.then(()=>{
+  
+})
+.catch(()=>{
+  
+})
+
+
+
+
+
+
+
+onAuthStateChanged(auth, user=>{
+  
+  if (user){
+    const id = user.uid;
+    let formRef = doc(db, id, "form");
+    let form;
+    getDoc(formRef)
+    .then(doc=>{
+      if (doc.exists()){
+        form = doc.data();
+      } else
+      form = {};
+      form.sectionB ??= {
+        name: "",
+        gender: "",
+        email: "",
+        phone1: "",
+        phone2: "",
+        readdress: "", 
+        relationship: ""
+      };
+      
+      let section = form.sectionB;
+     
+      relationship.value = section.relationship;
+      relationship.onchange = e=>{
+        section.relationship = relationship.value;
+        relationship.style = "border: 1px solid #ccc; background: white; color:black;"
+ 
+      }
+      
+      nameIn.value = section.name;
+      nameIn.onchange = e=>{
+        nameIn.value = nameIn.value.replace("  ", " ").trim();
+        section.name = nameIn.value;
+        nameIn.style = "border: 1px solid #ccc; background: white; color:black;"
+      }
+      if (section.gender)
+      document.getElementById(section.gender[0]).checked = true;
+      m.oninput = e =>{
+        section.gender = m.value;
+        genderL.style.background="white";
+        genderL.style.color="black";
+      }
+      f.oninput = e =>{
+        section.gender = f.value;
+        genderL.style.background="white";
+        genderL.style.color="black";
+      }    
+      emailIn.value = section.email;
+      emailIn.oninput = e=>{
+        section.email = emailIn.value;
+        emailIn.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone1In.value = section.phone1;
+      phone1In.oninput = e=>{
+        section.phone1 = phone1In.value;
+        phone1In.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      phone2In.value = section.phone2;
+      phone2In.oninput = e=>{
+        section.phone2 = phone2In.value;
+      }
+      readdressIn.value = section.readdress;
+      readdressIn.oninput = e=>{
+        section.readdress = readdressIn.value;
+        readdressIn.style = "border: 1px solid #ccc; background: white; color:black;"
+
+      }
+      
+      save.onclick = e=>{
+        let invalidC = 0;
+        [nameIn, 
+        emailIn, 
+        phone1In,
+        phone2In,
+        readdressIn,
+        relationship
+        ].forEach(inp=>{
+          if(!inp.checkValidity()){
+            invalidC++;
+            inp.style.border = "1.5px solid red";
+            inp.style.background = "red";
+            inp.style.color = "white";
+          }
+        })
+        if (!(!!f.checked || !!m.checked)){
+          alert("No gender selected!");
+          genderL.style.background="red";
+          genderL.style.color="white";
+          return;
+          
+        }
+        if (invalidC){
+          alert ("About " + invalidC+" invalid input(s)");
+          return;
+        }
+        save.querySelector("span").classList.add("spinner");
+        setDoc(formRef, form)
+        .then(()=>{
+          save.querySelector("span").classList.remove("spinner");
+          save.textContent = "Saved!";
+          window.location.href = "sectionC.html";
+        })
+      }
+    })
+    .catch(e=>{
+      document.body.innerHTML =`
+      Unknowm error occured ${e.message}<hr>
+      <button onclick="window.location.reload()">
+      Reload
+      </button>
+    `;
+    })    
+  } else {
+    document.body.innerHTML =`
+    Unknowm error occured<br>
+    <button onclick="window.location.reload()">
+    Reload
+    </button>
+    `;
+  }
+})
+  </script>
+    
+    
+  
+</body>
+</html>
